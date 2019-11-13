@@ -59,9 +59,13 @@ const renderElem = function(elem, optionsCopy) {
         const childNode = elem.childNodes[i];
         if (childNode.nodeType === 3) {
             // Text node
-            const frag = renderMathInText(childNode.textContent, optionsCopy);
-            i += frag.childNodes.length - 1;
-            elem.replaceChild(frag, childNode);
+            const text = childNode.textContent;
+            const isEmpty = text.length === 0 || !text.trim();
+            if (!isEmpty) {
+                const frag = renderMathInText(text, optionsCopy);
+                i += frag.childNodes.length - 1;
+                elem.replaceChild(frag, childNode);
+            }
         } else if (childNode.nodeType === 1) {
             // Element node
             const className = ' ' + childNode.className + ' ';
